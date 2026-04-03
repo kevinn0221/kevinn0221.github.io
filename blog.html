@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- Core Variables --- */
+        :root {
+            --bg-color: #0b0c10;
+            --text-main: #ffffff;
+            --text-muted: #a0aab2;
+            --accent-color: #00a8ff;
+            --card-bg: #151821;
+            --like-color: #2ea043;
+            --dislike-color: #f85149;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Navigation Bar --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: rgba(11, 12, 16, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo span.kd {
+            color: var(--accent-color);
+            font-weight: 700;
+            font-size: 1.5rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-color);
+        }
+
+        /* --- Blog Section --- */
+        .blog-section {
+            flex: 1;
+            padding: 60px 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+
+        .blog-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .blog-header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .blog-header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        /* Blog Grid Layout */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        /* Individual Blog Card */
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .blog-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            line-height: 1.4;
+        }
+
+        .blog-content {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1; /* Pushes the reactions to the bottom */
+            margin-bottom: 30px;
+        }
+
+        /* Reactions Section */
+        .reactions {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 20px;
+        }
+
+        .reaction-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 1.2rem;
+        }
+
+        .reaction-btn span {
+            font-size: 0.8rem;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Hover & Active states for buttons */
+        .reaction-btn.like:hover, .reaction-btn.like.active {
+            color: var(--like-color);
+            transform: scale(1.1);
+        }
+
+        .reaction-btn.dislike:hover, .reaction-btn.dislike.active {
+            color: var(--dislike-color);
+            transform: scale(1.1);
+        }
+
+        /* --- Footer --- */
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            background: #08090c;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            margin-top: auto;
+        }
+
+        footer .copyright {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            nav, .blog-section { padding: 20px; }
+            .blog-header h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <span class="kd">DK</span>
+            <div class="logo-text">
+                <span>Dhamecha Kevin</span>
+                <span>Web Developer | Python app Developer</span>
+            </div>
+        </div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="resume.html">Resume</a></li>
+            <li><a href="about.html">About me</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+
+    <section class="blog-section">
+        <div class="blog-header">
+            <h1>📝 My Blog</h1>
+            <p>Personal thoughts, experiences, and reflections — feel free to react!</p>
+        </div>
+
+        <div class="blog-grid">
+            
+            <article class="blog-card">
+                <h3 class="blog-title">Why I Love Developing Websites</h3>
+                <p class="blog-content">
+                       I love developing websites because it allows me to turn ideas into interactive and user-friendly experiences. It helps me combine creativity with coding while solving real-world problems.                <div class="reactions">
+                    <button class="reaction-btn like" onclick="toggleReaction(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        <span class="count">24</span>
+                    </button>
+                    <button class="reaction-btn dislike" onclick="toggleReaction(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                        <span class="count">0</span>
+                    </button>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <h3 class="blog-title">My Thoughts on Design & Aesthetics</h3>
+                <p class="blog-content">
+                    I believe design should be a balance between functionality and emotion. Dark themes with minimalist layouts always inspire me to create something that feels personal and futuristic.
+                </p>
+                <div class="reactions">
+                    <button class="reaction-btn like" onclick="toggleReaction(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        <span class="count">12</span>
+                    </button>
+                    <button class="reaction-btn dislike" onclick="toggleReaction(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                        <span class="count">1</span>
+                    </button>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <h3 class="blog-title">Balancing Tech and Creativity</h3>
+                <p class="blog-content">
+                    As someone who codes and dances, I've realized creativity isn't limited to art — it also lives in algorithms. Each project is like choreography for the mind.
+                </p>
+                <div class="reactions">
+                    <button class="reaction-btn like" onclick="toggleReaction(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        <span class="count">8</span>
+                    </button>
+                    <button class="reaction-btn dislike" onclick="toggleReaction(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                        <span class="count">1</span>
+                    </button>
+                </div>
+            </article>
+
+            <article class="blog-card">
+                <h3 class="blog-title">The Beauty of Simple Code</h3>
+                <p class="blog-content">
+                    Sometimes the best solution isn't the most complex one. Writing clean, readable code that solves the problem efficiently is a skill that takes time to master, but is always worth the effort.
+                </p>
+                <div class="reactions">
+                    <button class="reaction-btn like" onclick="toggleReaction(this, 'like')">
+                        <i class="fa-regular fa-thumbs-up"></i>
+                        <span class="count">15</span>
+                    </button>
+                    <button class="reaction-btn dislike" onclick="toggleReaction(this, 'dislike')">
+                        <i class="fa-regular fa-thumbs-down"></i>
+                        <span class="count">0</span>
+                    </button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="copyright">
+            <i class="fa-regular fa-copyright"></i>
+            <span>Dhamecha Kevin</span>
+        </div>
+    </footer>
+
+    <script>
+        function toggleReaction(btn, type) {
+            // Find the parent container
+            const parent = btn.parentElement;
+            const countSpan = btn.querySelector('.count');
+            const icon = btn.querySelector('i');
+            
+            // Get current count
+            let count = parseInt(countSpan.innerText);
+
+            // Toggle active state
+            if (btn.classList.contains('active')) {
+                // Remove reaction
+                btn.classList.remove('active');
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                count--;
+            } else {
+                // Add reaction
+                btn.classList.add('active');
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                count++;
+
+                // If clicking Like, remove Dislike (and vice versa)
+                const oppositeType = type === 'like' ? 'dislike' : 'like';
+                const oppositeBtn = parent.querySelector(`.${oppositeType}`);
+                if (oppositeBtn.classList.contains('active')) {
+                    oppositeBtn.classList.remove('active');
+                    const oppIcon = oppositeBtn.querySelector('i');
+                    oppIcon.classList.remove('fa-solid');
+                    oppIcon.classList.add('fa-regular');
+                    const oppCountSpan = oppositeBtn.querySelector('.count');
+                    oppCountSpan.innerText = parseInt(oppCountSpan.innerText) - 1;
+                }
+            }
+
+            // Update text
+            countSpan.innerText = count;
+        }
+    </script>
+
+</body>
+</html>
