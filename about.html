@@ -7,6 +7,49 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Mobile Menu Styles */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main, #ffffff);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding-right: 20px;
+        }
+
+        @media (max-width: 900px) {
+            nav {
+                padding: 15px 0 15px 0;
+            }
+            .menu-btn {
+                display: block;
+            }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 12, 16, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -18,7 +61,12 @@
                 <span>Web Developer | Python app Developer</span>
             </div>
         </div>
-        <ul class="nav-links">
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="gallery.html">Gallery</a></li>
@@ -42,7 +90,7 @@
             <p class="about-text">
                 I'm deeply interested in creating modern web interfaces and powerful backend systems using Python. I like combining clean design with strong logic to deliver smooth and engaging user experiences.
             </p>
-               
+                
             <p class="about-text">
                 Beyond coding, I explore UI/UX design, animations, and interactive elements to make applications more attractive and impactful. My goal is to build solutions that are not only efficient but also visually appealing.
             </p>    
@@ -89,6 +137,23 @@
             <span>2026 Dhamecha Kevin</span>
         </div>
     </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const icon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 
 </body>
 </html>
