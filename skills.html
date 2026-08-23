@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skills - Portfolio</title>
-    <link rel="stylesheet" href="styles.css>">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -45,6 +45,7 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
 
         .logo {
@@ -85,6 +86,16 @@
             color: var(--accent-color);
         }
 
+        /* Mobile Navigation Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* --- Skills Section --- */
         .skills-section {
             flex: 1;
@@ -121,11 +132,13 @@
             overflow: hidden;
             height: 450px;
             box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
-            margin-bottom: 50px; /* Space before the grid */
+            margin-bottom: 50px;
         }
 
         .skill-bubble {
             position: absolute;
+            top: 0;
+            left: 0;
             width: 100px;
             height: 100px;
             border-radius: 50%;
@@ -135,21 +148,20 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.2s ease-out, box-shadow 0.2s;
             backdrop-filter: blur(5px);
             user-select: none;
             box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), inset 10px 10px 20px rgba(255,255,255,0.1);
         }
 
         .skill-bubble:hover {
-            transform: scale(1.1) !important; 
             z-index: 10;
         }
 
         .skill-bubble i { font-size: 2.5rem; margin-bottom: 5px; }
         .skill-bubble span { font-size: 0.75rem; font-weight: 500; }
 
-        /* 2. Categorized Grid Area (NEW) */
+        /* 2. Categorized Grid Area */
         .skills-grid {
             display: flex;
             flex-wrap: wrap;
@@ -161,7 +173,7 @@
             background: var(--card-bg);
             border-radius: 12px;
             padding: 30px;
-            width: calc(25% - 20px); /* 4 columns on desktop */
+            width: calc(25% - 20px);
             min-width: 250px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: transform 0.3s;
@@ -185,7 +197,6 @@
             line-height: 2;
         }
 
-        /* Specific color highlights based on your image */
         .highlight {
             color: var(--accent-color);
         }
@@ -208,14 +219,38 @@
 
         /* Responsive */
         @media (max-width: 900px) {
-            .skill-category-card { width: calc(50% - 20px); } /* 2 columns */
+            .skill-category-card { width: calc(50% - 20px); }
         }
+        
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            nav, .skills-section { padding: 20px; }
+            nav { padding: 15px 20px; }
+            .menu-btn { display: block; }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 12, 16, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .skills-section { padding: 20px; }
             .skill-bubble { width: 80px; height: 80px; }
             .skill-bubble i { font-size: 1.8rem; }
-            .skill-category-card { width: 100%; } /* 1 column */
+            .skill-category-card { width: 100%; }
         }
     </style>
 </head>
@@ -229,15 +264,20 @@
                 <span>Web Developer | Python app Developer</span>
             </div>
         </div>
-        <ul class="nav-links">
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="gallery.html">Gallery</a></li>
             <li><a href="skills.html" class="active">Skills</a></li>
             <li><a href="blog.html">Blog</a></li>
             <li><a href="resume.html">Resume</a></li>
-            <li><a href="#">About me</a></li>
-            <li><a href="#">Contact</a></li>
+            <li><a href="about.html">About me</a></li>
+            <li><a href="contact.html">Contact</a></li>
         </ul>
     </nav>
 
@@ -247,8 +287,7 @@
             <p>✨ Technical expertise blended with creativity — explore my core competencies below.</p>
         </div>
         
-        <div class="skills-container" id="canvas">
-            </div>
+        <div class="skills-container" id="canvas"></div>
 
         <div class="skills-grid">
             
@@ -279,6 +318,7 @@
                     <li>Git</li>
                 </ul>
             </div>
+
             <div class="skill-category-card">
                 <h3>Core Concepts</h3>
                 <ul>
@@ -304,11 +344,28 @@
     <footer>
         <div class="copyright">
             <i class="fa-regular fa-copyright"></i>
-            <span>2026 Dhamecha Kevin — Built with HTML/CSS</span>
+            <span>Dhamecha Kevin — Built with HTML/CSS</span>
         </div>
     </footer>
 
     <script>
+        /* --- Mobile Navigation Setup --- */
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+
+        /* --- Bouncing Skills Bubble Physics --- */
         const skillsData = [
             { name: "Python", icon: "fa-brands fa-python", color: "#3776AB" },
             { name: "JavaScript", icon: "fa-brands fa-js", color: "#F7DF1E" },
@@ -317,8 +374,8 @@
             { name: "React", icon: "fa-brands fa-react", color: "#61DAFB" },
             { name: "Java", icon: "fa-brands fa-java", color: "#007396" },
             { name: "C++", icon: "fa-solid fa-c", color: "#00599C" }, 
-            { name: "MySQL", icon: "fa-solid fa-database", color: "#4479A1" },
-            ];
+            { name: "MySQL", icon: "fa-solid fa-database", color: "#4479A1" }
+        ];
 
         const container = document.getElementById('canvas');
         const bubbles = [];
@@ -340,8 +397,8 @@
                 element: el,
                 x: Math.random() * (container.clientWidth - size),
                 y: Math.random() * (container.clientHeight - size),
-                vx: (Math.random() - 0.5) * 3, 
-                vy: (Math.random() - 0.5) * 3,
+                vx: (Math.random() - 0.5) * 2.5, 
+                vy: (Math.random() - 0.5) * 2.5,
                 size: size,
                 isHovered: false
             });
@@ -361,28 +418,29 @@
             const height = container.clientHeight;
 
             bubbles.forEach(bubble => {
-                if (bubble.isHovered) return;
+                if (!bubble.isHovered) {
+                    bubble.x += bubble.vx;
+                    bubble.y += bubble.vy;
 
-                bubble.x += bubble.vx;
-                bubble.y += bubble.vy;
+                    if (bubble.x <= 0) {
+                        bubble.x = 0;
+                        bubble.vx *= -1;
+                    } else if (bubble.x >= width - bubble.size) {
+                        bubble.x = width - bubble.size;
+                        bubble.vx *= -1;
+                    }
 
-                if (bubble.x <= 0) {
-                    bubble.x = 0;
-                    bubble.vx *= -1;
-                } else if (bubble.x >= width - bubble.size) {
-                    bubble.x = width - bubble.size;
-                    bubble.vx *= -1;
+                    if (bubble.y <= 0) {
+                        bubble.y = 0;
+                        bubble.vy *= -1;
+                    } else if (bubble.y >= height - bubble.size) {
+                        bubble.y = height - bubble.size;
+                        bubble.vy *= -1;
+                    }
                 }
 
-                if (bubble.y <= 0) {
-                    bubble.y = 0;
-                    bubble.vy *= -1;
-                } else if (bubble.y >= height - bubble.size) {
-                    bubble.y = height - bubble.size;
-                    bubble.vy *= -1;
-                }
-
-                bubble.element.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
+                const scale = bubble.isHovered ? 1.15 : 1;
+                bubble.element.style.transform = `translate(${bubble.x}px, ${bubble.y}px) scale(${scale})`;
             });
 
             requestAnimationFrame(animate);
@@ -393,6 +451,9 @@
         window.addEventListener('resize', () => {
             bubbles.forEach(bubble => {
                 bubble.size = window.innerWidth > 768 ? 100 : 80;
+                // Reposition if out of bounds on screen resize
+                if (bubble.x > container.clientWidth - bubble.size) bubble.x = container.clientWidth - bubble.size;
+                if (bubble.y > container.clientHeight - bubble.size) bubble.y = container.clientHeight - bubble.size;
             });
         });
     </script>
