@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume - Portfolio</title>
-    <link rel="stylesheet" href="styles.css>">
+    <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -90,6 +90,16 @@
             color: var(--accent-color);
         }
 
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         /* --- Resume Section --- */
         .resume-section {
             flex: 1;
@@ -113,9 +123,9 @@
         /* The PDF Viewer Container */
         .pdf-container {
             width: 100%;
-            max-width: 1000px; /* Limits how wide the resume gets on big screens */
-            height: 80vh;      /* Takes up 80% of the screen height */
-            background-color: #323639; /* Standard Chrome PDF viewer background color */
+            max-width: 1000px;
+            height: 80vh;
+            background-color: #323639;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
@@ -172,8 +182,31 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .nav-links { display: none; }
-            nav, .resume-section { padding: 20px; }
+            nav { padding: 15px 20px; }
+            .menu-btn { display: block; }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 12, 16, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
+            }
+            .resume-section { padding: 20px; }
             .pdf-container { height: 60vh; }
         }
     </style>
@@ -188,7 +221,12 @@
                 <span>Web Developer | Python app Developer</span>
             </div>
         </div>
-        <ul class="nav-links">
+
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
             <li><a href="index.html">Home</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="gallery.html">Gallery</a></li>
@@ -224,6 +262,24 @@
             <span>Dhamecha Kevin</span>
         </div>
     </footer>
+
+    <script>
+        /* Mobile Navigation Menu Toggle */
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const menuIcon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                menuIcon.classList.remove('fa-bars');
+                menuIcon.classList.add('fa-xmark');
+            } else {
+                menuIcon.classList.remove('fa-xmark');
+                menuIcon.classList.add('fa-bars');
+            }
+        });
+    </script>
 
 </body>
 </html>
