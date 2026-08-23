@@ -268,8 +268,17 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            nav { padding: 15px 20px; }
-            .menu-btn { display: block; }
+            nav { 
+                padding: 12px 15px; 
+                gap: 10px;
+            }
+            .logo-text span:last-child {
+                display: none; /* Hides the long sub-tagline on mobile screens */
+            }
+            .menu-btn { 
+                display: block; 
+                flex-shrink: 0;
+            }
             .nav-links {
                 display: flex;
                 flex-direction: column;
