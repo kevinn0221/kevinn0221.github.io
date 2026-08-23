@@ -115,6 +115,17 @@
             color: var(--accent-color);
         }
 
+        /* Mobile Menu Button */
+        .menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding-right: 20px;
+        }
+
         /* --- Hero Section --- */
         .hero {
             flex: 1;
@@ -309,7 +320,32 @@
         /* Responsive Design */
         @media (max-width: 900px) {
             nav {
-                padding: 15px 15px 15px 0;
+                padding: 15px 0 15px 0;
+            }
+            .menu-btn {
+                display: block; /* Show hamburger button on mobile */
+            }
+            .nav-links {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(11, 12, 16, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                transform: translateY(-150%);
+                transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                opacity: 0;
+                pointer-events: none;
+            }
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                pointer-events: auto;
             }
             .hero {
                 flex-direction: column;
@@ -330,9 +366,6 @@
                 justify-content: center;
                 flex-wrap: wrap;
             }
-            .nav-links {
-                display: none;
-            }
         }
     </style>
 </head>
@@ -346,7 +379,12 @@
                 <span>Web Developer | Python app Developer</span>
             </div>
         </div>
-        <ul class="nav-links">
+        
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle Navigation">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="nav-links" id="navLinks">
             <li><a href="#" class="active">Home</a></li>
             <li><a href="projects.html">Projects</a></li>
             <li><a href="gallery.html">Gallery</a></li>
@@ -413,6 +451,23 @@
             <span>Dhamecha Kevin</span>
         </div>
     </footer>
+
+    <script>
+        const menuBtn = document.getElementById('menuBtn');
+        const navLinks = document.getElementById('navLinks');
+        const icon = menuBtn.querySelector('i');
+
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            if (navLinks.classList.contains('active')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+    </script>
 
 </body>
 </html>
